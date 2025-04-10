@@ -1,0 +1,66 @@
+﻿@using Web_BTL.Models
+@model IEnumerable<CustomerModel>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<div class="container py-4">
+    <div class="card shadow rounded-4 border-0">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center rounded-top-4">
+            <h4 class="mb-0">Danh sách người dùng</h4>
+            <button class="btn btn-light btn-sm" onclick="showComponent()">
+                <i class="bi bi-chevron-down"></i>
+            </button>
+        </div>
+        <div class="card-body" id="customer-list-container">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Ảnh</th>
+                            <th scope="col">Tên người dùng</th>
+                            <th scope="col">Tên đăng nhập</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Ngày tạo</th>
+                            <th scope="col">Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var c in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(c.UserImagePath))
+                                    {
+                                        <img src="@Url.Content($"~/images/users/{c.UserImagePath}")" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                                    }
+                                    else
+                                    {
+                                        <div class="bg-secondary text-white text-center rounded-circle" style="width: 40px; height: 40px; line-height: 40px;">
+                                            <i class="bi bi-person-fill"></i>
+                                        </div>
+                                    }
+                                </td>
+                                <td>@c.UserName</td>
+                                <td>@c.UserLogin</td>
+                                <td>@c.UserEmail</td>
+                                <td>@c.UserCreateDate?.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    <a id="toggle-@c.CustomerId" href="javascript:void(0)" onclick="toggleUserState(@c.CustomerId)" class="text-decoration-none">
+                                        @if (c.UserState == true)
+                                        {
+                                            <span class="badge bg-success"><i class="bi bi-check-circle-fill"></i> Hoạt động</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger"><i class="bi bi-x-circle-fill"></i> Dừng</span>
+                                        }
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

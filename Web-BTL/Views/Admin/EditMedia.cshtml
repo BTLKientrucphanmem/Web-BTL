@@ -1,0 +1,145 @@
+﻿@using Web_BTL.Models
+@model MediaModel
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin.css">
+}
+
+<div>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <form asp-controller="Admin" asp-action="EditMedia" method="post" enctype="multipart/form-data" id="editMediaForm" asp-route-mid="@Model.MediaId">
+        <input type="hidden" asp-for="MediaId"/>
+        <!--Nhập tên phim-->
+        <div style="margin-top: 7px" class="form-group row">
+            <span asp-validation-for="MediaName" class="text-danger"></span>
+            <div>
+                <input asp-for="MediaName" class="form-control" placeholder="Tên phim" />
+            </div>
+        </div>
+        <!--Mô tả phim-->
+        <div style="margin-top: 7px" class="form-group row">
+            <span asp-validation-for="MediaDescription" class="text-danger"></span>
+            <div>
+                <input asp-for="MediaDescription" class="form-control" placeholder="Mô tả phim" />
+            </div>
+        </div>
+        <!--Chất lượng phim-->
+        <div style="margin-top: 7px" class="form-group row">
+            <span asp-validation-for="MediaQuality" class="text-danger"></span>
+            <div>
+                <input asp-for="MediaQuality" class="form-control" placeholder="Chất lượng" />
+            </div>
+        </div>
+        <!--Ngày phát hành-->
+        <div style="margin-top: 7px" class="form-group row">
+            <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            <div>
+                <input asp-for="ReleaseDate" class="form-control" placeholder="Ngày phát hành" />
+            </div>
+        </div>
+        <!--Số tuổi được xem-->
+        <div style="margin-top: 7px" class="form-group row">
+            <span asp-validation-for="MediaAgeRating" class="text-danger"></span>
+            <div>
+                <input asp-for="MediaAgeRating" class="form-control" placeholder="Độ tuổi giới hạn" />
+            </div>
+        </div>
+        <!--Điền thể loại-->
+        <div style="margin-top: 7px" class="form-group row">
+            <ul>
+                @foreach (var item in ViewBag.AllGenres)
+                {
+                    <li>
+                        <input type="checkbox" name="SelectedGenreId" value="@item.Value" />
+                        @item.Text <br />
+                    </li>
+                }
+            </ul>
+        </div>
+        <!--Điền diễn viên-->
+        <a class="btn btn-primary" onclick="showActorPopup()">Thêm diễn viên</a>
+        <!-- Overlay và Popup bảng diễn viên -->
+        <div id="actorOverlay" class="overlay">
+            <div class="popup">
+                <h4 style="color: black;">Chọn diễn viên</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="color: black;">Tên diễn viên</th>
+                            <th style="color: black;">Main</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var actor in ViewBag.AllActors)
+                        {
+                            <tr>
+                                <td style="color: black;">
+                                    <input type="checkbox" name="SelectedActorId" value="@actor.Value" /> @actor.Text
+                                </td>
+                                <td style="color: black;">
+                                    <input type="checkbox" name="SelectedActorMain" value="@actor.Value" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <button class="btn btn-success" type="button" onclick="hideActorPopup()">Save</button>
+            </div>
+        </div>
+        <!--Điền ảnh phim-->
+        <div style="margin-top: 7px" class="form-group row">
+            <p>Ảnh :</p>
+            <input name="image" type="file" accept="image/*" />
+        </div>
+        <div style="margin-top: 7px" class="form-group row">
+            <p>Banner :</p>
+            <input name="banner" type="file" accept="image/*" />
+        </div>
+        <!--Điền Video(phim)-->
+        <div style="margin-top: 7px" class="form-group row">
+            <p>Video :</p>
+            <input name="video" type="file" accept="video/*"/>
+        </div>
+        <button type="submit" class="btn btn-outline-primary">Submit</button>
+    </form>
+</div>
+
+@section Scripts {
+    <style>
+        /* Tạo lớp phủ nền */
+        .overlay {
+            display: none; /* Ẩn ban đầu */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        /* Popup bảng chọn diễn viên */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            width: 400px;
+            max-height: 70%;
+            overflow-y: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+            z-index: 1001;
+        }
+    </style>
+    <script>
+            function showActorPopup() {
+                document.getElementById("actorOverlay").style.display = "block";
+            }
+
+            function hideActorPopup() {
+                document.getElementById("actorOverlay").style.display = "none";
+            }
+    </script>
+    
+}

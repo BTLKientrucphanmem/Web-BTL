@@ -1,0 +1,118 @@
+@using Web_BTL.Models
+@model IEnumerable<MediaModel>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<div class="container py-5">
+    <div class="card border-0 shadow-lg rounded-4">
+        <div class="card-header bg-gradient bg-primary text-white rounded-top-4 d-flex justify-content-between align-items-center">
+            <h4 class="mb-0"><i class="bi bi-film"></i> Danh sách phim</h4>
+           
+        </div>
+
+        <div id="genrespackages-container" class="p-3 border-bottom" style="display: none; background-color: #f0f2f5;">
+            <div class="d-flex flex-wrap gap-2">
+                @await Component.InvokeAsync("Genre", new { isAdmin = true })
+            </div>
+        </div>
+
+        <div class="card-body" id="media-list-container">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle text-center">
+                    <thead class="table-primary text-dark">
+                        <tr>
+                            <th scope="col">Tên phim</th>
+                            <th scope="col">Chất lượng</th>
+                            <th scope="col">Phát hành</th>
+                            <th scope="col">Tuổi giới hạn</th>
+                            <th scope="col">Thời lượng</th>
+                            <th scope="col">Tuỳ chọn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var m in Model)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@m.MediaName</td>
+                                <td>@m.MediaQuality</td>
+                                <td>@(m.ReleaseDate?.ToString("dd/MM/yyyy") ?? "Không rõ")</td>
+                                <td>@m.MediaAgeRating+</td>
+                                <td>@(m.MediaDuration?.ToString(@"hh\:mm\:ss") ?? "00:00:00")</td>
+                                <td>
+                                    <a class="btn btn-sm btn-primary me-1" asp-action="EditMedia" asp-route-mid="@m.MediaId">
+                                        <i class="bi bi-pencil-square"></i> Sửa
+                                    </a>
+                                    <button class="btn btn-sm btn-danger" onclick="showConfirmDelete('@m.MediaId')">
+                                        <i class="bi bi-trash3-fill"></i> Xoá
+                                    </button>
+
+                                    <form id="confirm-delete-@m.MediaId" asp-action="DeleteMedia" method="post" class="mt-2 p-3 bg-white border rounded shadow-sm" style="display: none;">
+                                        <p class="text-danger fw-bold mb-2">Bạn có chắc chắn muốn xoá phim này?</p>
+                                        <input type="hidden" name="mid" value="@m.MediaId" />
+                                        <div class="d-flex justify-content-center gap-2">
+                                            <button type="submit" name="YesNo" value="true" class="btn btn-success btn-sm">Có</button>
+                                            <button type="button" onclick="hideConfirmDelete('@m.MediaId')" class="btn btn-secondary btn-sm">Không</button>
+                                        </div>
+                                    </form>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-flex justify-content-start gap-3 mt-4">
+                <a class="btn btn-success" asp-action="AddMedia"><i class="bi bi-plus-circle"></i> Thêm phim</a>
+                <a class="btn btn-info text-white" asp-action="ListGenre"><i class="bi bi-tags"></i> Thể loại</a>
+                <a class="btn btn-warning text-white" asp-action="ListActor"><i class="bi bi-people-fill"></i> Diễn viên</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function showConfirmDelete(mediaId) {
+            document.querySelectorAll('form[id^="confirm-delete-"]').forEach(form => form.style.display = 'none');
+            document.getElementById(`confirm-delete-${mediaId}`).style.display = 'block';
+        }
+
+        function hideConfirmDelete(mediaId) {
+            document.getElementById(`confirm-delete-${mediaId}`).style.display = 'none';
+        }
+
+        function showComponent() {
+            const container = document.getElementById('genrespackages-container');
+            container.style.display = container.style.display === 'block' ? 'none' : 'block';
+            if (container.style.display === 'none') loadMediaList('all', 'all');
+        }
+
+        function loadMediaList(type, id) {
+            $.ajax({
+                url: '/Admin/LoadMediaList',
+                type: 'GET',
+                data: { type: type, id: id },
+                success: function (result) {
+                    $('#media-list-container').html(result);
+                },
+                error: function () {
+                    alert("Không thể tải danh sách media");
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $(document).on('click', '.package', function () {
+                const packageId = $(this).attr('id');
+                loadMediaList('package', packageId);
+            });
+            $(document).on('click', '.genre', function () {
+                const genreId = $(this).attr('id');
+                loadMediaList('genre', genreId);
+            });
+        });
+    </script>
+}

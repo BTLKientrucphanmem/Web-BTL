@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@using Web_BTL.Models
+
+@model IEnumerable<MediaModel>
+
+@section Styles {
+    <link href="~/css/grid.css" rel="stylesheet">
+    <link href="~/css/app.css" rel="stylesheet">
+}
+
+
+<!-- HERO SECTION -->
+<div class="hero-section">
+    <!-- HERO SLIDE -->
+    <partial name="Layouts/Slides/HeroSlide" />
+    <!-- END HERO SLIDE -->
+    <!-- TOP MOVIES SLIDE -->
+    <partial name="Layouts/Slides/TopMoviesSlide" />
+    <!-- END TOP MOVIES SLIDE -->
+</div>
+<!-- END HERO SECTION -->
+<!-- LATEST MOVIES SECTION -->
+<partial name="Layouts/Latest/LatestMovies" />
+<!-- END LATEST MOVIES SECTION -->
+<!-- LATEST SERIES SECTION -->
+<partial name="Layouts/Latest/LatestSeries" />
+<!-- END LATEST SERIES SECTION -->
+<!-- LATEST CARTOONS SECTION -->
+<partial name="Layouts/Latest/LatestCartoons" />
+<!-- END LATEST CARTOONS SECTION -->
+<!-- SPECIAL MOVIE SECTION -->
+<partial name="Layouts/SpecialMovie" />
+<!-- END SPECIAL MOVIE SECTION -->
+@section Scripts {
+
+}
+<script>
+    $("img").click(function (e) {
+        var id = $(this).attr("id");
+
+        window.location.href = "Movie/Index?movieId=" + id;
+    });
+</script>

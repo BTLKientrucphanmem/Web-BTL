@@ -1,0 +1,111 @@
+﻿@using Web_BTL.Models
+@model IEnumerable<ActorModel>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+
+<div class="container py-4">
+    <div class="card shadow rounded-4 border-0">
+        <div class="card-header bg-dark text-white rounded-top-4 d-flex justify-content-between align-items-center">
+            <h4 class="mb-0"><i class="bi bi-people-fill me-2"></i>Danh sách diễn viên</h4>
+            <a class="btn btn-sm btn-dark" asp-action="AddActor"><i class="bi bi-plus-circle"></i> Thêm diễn viên</a>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-hover align-middle text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>Tên diễn viên</th>
+                        <th>Ngày sinh</th>
+                        <th>Tuỳ chọn</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var a in Model)
+                    {
+                        <tr>
+                            <td id="actor-name-@a.ActorID">@a.ActorName</td>
+                            <td id="actor-date-@a.ActorID">@(a.AcctorDate?.ToString("dd/MM/yyyy") ?? "00/00/0000")</td>
+                            <td>
+                                <a href="javascript:void(0);" onclick="editActor('@a.ActorID', '@a.ActorName', '@a.AcctorDate')" class="text-primary me-2">
+                                    <i class="bi bi-pencil-square"></i> Sửa
+                                </a>
+                                <a href="javascript:void(0);" onclick="showConfirmDelete('@a.ActorID')" class="text-danger">
+                                    <i class="bi bi-trash3-fill"></i> Xoá
+                                </a>
+
+                                <form id="confirm-delete-@a.ActorID" asp-action="DeleteActor" method="post" class="mt-2 p-2 bg-light border rounded shadow-sm" style="display: none;">
+                                    <p class="text-danger mb-2">Bạn có chắc chắn muốn xoá diễn viên này?</p>
+                                    <input type="hidden" name="aid" value="@a.ActorID" />
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <button type="submit" name="YesNo" value="true" class="btn btn-success btn-sm">Có</button>
+                                        <button type="button" onclick="hideConfirmDelete('@a.ActorID')" class="btn btn-secondary btn-sm">Không</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="d-flex gap-2 mt-4">
+                <a class="btn btn-dark" asp-action="Index"><i class="bi bi-film"></i> Danh sách phim</a>
+                <a class="btn btn-dark" asp-action="ListGenre"><i class="bi bi-tags"></i> Danh sách thể loại</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function editActor(actorId, actorName, actorDate) {
+            const tdName = document.getElementById(`actor-name-${actorId}`);
+            const saveNameBtn = `<button onclick="saveName('${actorId}')" class="btn btn-success btn-sm ms-2">Lưu</button>`;
+            tdName.innerHTML = `<input type="text" id="input-name-${actorId}" value="${actorName}" class="form-control d-inline w-75" /> ${saveNameBtn}`;
+
+            const tdDate = document.getElementById(`actor-date-${actorId}`);
+            const saveDateBtn = `<button onclick="saveDate('${actorId}')" class="btn btn-success btn-sm ms-2">Lưu</button>`;
+            tdDate.innerHTML = `<input type="date" id="input-date-${actorId}" value="${actorDate}" class="form-control d-inline w-75" /> ${saveDateBtn}`;
+        }
+
+        function saveName(actorId) {
+            const input = document.getElementById(`input-name-${actorId}`);
+            const newName = input.value;
+            fetch(`/Admin/EditActorName`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ActorID: actorId, ActorName: newName })
+            }).then(res => res.json()).then(data => {
+                if (data.success) {
+                    document.getElementById(`actor-name-${actorId}`).innerHTML = newName;
+                } else {
+                    alert("Có lỗi xảy ra khi cập nhật tên diễn viên");
+                }
+            });
+        }
+
+        function saveDate(actorId) {
+            const input = document.getElementById(`input-date-${actorId}`);
+            const newDate = input.value;
+            fetch(`/Admin/EditActorDate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ActorID: actorId, AcctorDate: newDate })
+            }).then(res => res.json()).then(data => {
+                if (data.success) {
+                    document.getElementById(`actor-date-${actorId}`).innerHTML = newDate.split("-").reverse().join("/");
+                } else {
+                    alert("Có lỗi xảy ra khi cập nhật ngày sinh");
+                }
+            });
+        }
+
+        function showConfirmDelete(ActorID) {
+            document.querySelectorAll('form[id^="confirm-delete-"]').forEach(f => f.style.display = 'none');
+            document.getElementById(`confirm-delete-${ActorID}`).style.display = 'block';
+        }
+
+        function hideConfirmDelete(ActorID) {
+            document.getElementById(`confirm-delete-${ActorID}`).style.display = 'none';
+        }
+    </script>
+}

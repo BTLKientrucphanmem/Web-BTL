@@ -1,0 +1,151 @@
+﻿@{
+    var i = 0;
+    ViewData["Title"] = "@Model.MediaName";
+}
+@section Styles {
+    <link href="~/css/video-js.min.css" rel=" stylesheet">
+    <link href="~/css/main.css" rel="stylesheet" />
+    <link href="~/css/grid.css" rel="stylesheet">
+    <link href="~/css/app.css" rel="stylesheet">
+}
+@using Web_BTL.Models
+@model MediaModel
+
+<div class="container-fluid">
+    <div class="row">
+        <main role="main" class="main">
+                
+
+            <div class="cast-container")">
+                <div class="cast-wrap d-flex movie-wrap">
+
+                    <div class="movie-watching">
+
+                        <video id="movie_watch" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="none" width="896" height="504" poster="./images/movies/transformer.jpg" data-setup="{}">
+                            <source src="@Url.Content("../videos/" + Model.MediaUrl)" type="video/mp4">
+                            <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+                        </video>
+
+                        <h2 class="movie-watching__title"><a href="movie-detail.html">@Model.MediaName</a></h2>
+                        <div class="movie-watching__view-count">
+                            <span>104.574</span> lượt xem
+                        </div>
+                    </div>
+                    <!-- /.movie-watching -->
+
+                </div>
+            </div>
+
+            <div class="container-fluid pading-md">
+
+                <section class="wrap">
+                    <div class="container">
+                        <div class="row">
+                            <div class="comments-container">
+                                <h3>Bình luận về phim</h3>
+
+                                <ul id="comments-list" class="comments-list">
+                                    <li>
+                                        <div class="comment-main-level">
+                                            <!-- Avatar -->
+                                            <div class="comment-avatar"><img src="images/common/default-avatar.png" alt=""></div>
+                                            <!-- Comment Container -->
+                                            <div class="comment-box">
+                                                <div class="comment-head">
+                                                    <h6 class="comment-name"><a href="#">Văn Tám</a></h6>
+                                                    <span>20 phút trước</span>
+                                                </div>
+                                                <div class="comment-content">
+                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </li>
+                                    <li>
+                                        <div class="comment-main-level">
+                                            <!-- Avatar -->
+                                            <div class="comment-avatar"><img src="images/common/default-avatar-asian-girl.png" alt=""></div>
+                                            <!-- Comment Container -->
+                                            <div class="comment-box">
+                                                <div class="comment-head">
+                                                    <h6 class="comment-name"><a href="#">Khánh Linh</a></h6>
+                                                    <span>10 phút trước</span>
+
+                                                </div>
+                                                <div class="comment-content">
+                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                </section>
+
+                <section class="wrap">
+
+                    <div class="wrap-heading">
+                        <h2 class="wrap-heading__title"><a href="list-movies.html">Phim liên quan</a></h2>
+                    </div>
+                    <!-- /.wrap-heading -->
+
+                    <div class="row knowfor">
+                            
+                        <div class="col-md-3">
+                            <div class="card bg-dark text-white">
+                                <a href="movie-detail.html">
+                                    <img class="card-img" src="images/poster/movie13.jpg" alt="Wonder Woman">
+                                </a>
+                                <div class="card-img-overlay">
+                                    <h4 class="card-title"><a href="#">Wonder Woman</a></h4>
+                                    <p class="card-text card-year">2017</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- / item 1 -->
+                        <div class="col-md-3">
+                            <div class="card bg-dark text-white">
+                                <a href="movie-detail.html">
+                                    <img class="card-img" src="images/poster/movie14.jpg" alt="Batman v Superman">
+                                </a>
+                                <div class="card-img-overlay">
+                                    <h4 class="card-title"><a href="#">Batman v Superman</a></h4>
+                                    <p class="card-text card-year">2016</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- / item 2 -->
+                        <div class="col-md-3">
+                            <div class="card bg-dark text-white">
+                                <a href="movie-detail.html">
+                                    <img class="card-img" src="images/poster/movie19.jpg" alt="Suicide Squad">
+                                </a>
+                                <div class="card-img-overlay">
+                                    <h4 class="card-title"><a href="#">Suicide Squad</a></h4>
+                                    <p class="card-text card-year">2016</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- / item 3 -->
+                        <div class="col-md-3">
+                            <div class="card bg-dark text-white">
+                                <a href="movie-detail.html">
+                                    <img class="card-img" src="images/poster/movie18.jpg" alt="Man of steel">
+                                </a>
+                                <div class="card-img-overlay">
+                                    <h4 class="card-title"><a href="#">Man of steel</a></h4>
+                                    <p class="card-text card-year">2014</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- / item 3 -->
+                    </div>
+                </section>
+                <!-- /.section -->
+
+            </div>
+        </main>
+    </div>
+</div>

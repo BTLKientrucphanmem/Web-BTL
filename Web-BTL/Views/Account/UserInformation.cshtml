@@ -1,0 +1,71 @@
+﻿@using Web_BTL.Models
+@model CustomerModel
+
+<form class="container user-info-container" asp-controller="Account" asp-action="UserInformation" method="post"> 
+    <h1 class="user-info-header">User Information</h1>
+    <div class="row align-items-center justify-content-center">
+        <!-- User Avatar -->
+        <div class="col-md-4 text-center d-flex justify-content-center">
+            <div class="user-avatar">
+                <img id="avatarImg" src="https://via.placeholder.com/150" alt="User Avatar">
+                <input type="file" id="avatarInput" accept="image/*" onchange="changeAvatar()">
+            </div>
+        </div>
+
+        <!-- User Details -->
+        <div class="col-md-6">
+            <div class="user-details">
+                <p>
+                    <span class="user-info-label">Full Name:</span>
+                    <span id="fullName">@Model.UserName</span>
+                    <input asp-for="@Model.UserEmail" id="fullNameInput" class="form-control edit-input" placeholder="Enter new full name" style="display: none;">
+                    <button class="btn btn-sm btn-outline-light mt-2" onclick="editFullName()">Edit Full Name</button>
+                </p>
+                <p>
+                    <span class="user-info-label">Username:</span> @Model.UserLogin
+                </p>
+                <p>
+                    <span class="user-info-label">Email:</span> @Model.UserEmail
+                </p>
+                <p>
+                    <span class="user-info-label">Account Created:</span> @Model.UserCreateDate
+                </p>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    <script>
+        // Function to change avatar when a new file is selected
+        function changeAvatar() {
+            const fileInput = document.getElementById('avatarInput');
+            const avatarImg = document.getElementById('avatarImg');
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    avatarImg.src = e.target.result; // Update the avatar image
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Function to toggle full name input field and save new full name
+        function editFullName() {
+            const fullName = document.getElementById('fullName');
+            const fullNameInput = document.getElementById('fullNameInput');
+
+            if (fullNameInput.style.display === "none") {
+                // Show input field to edit
+                fullNameInput.style.display = "block";
+                fullNameInput.value = fullName.textContent;
+            } else {
+                // Save the new full name and hide input field
+                fullName.textContent = fullNameInput.value;
+                fullNameInput.style.display = "none";
+            }
+        }
+        
+    </script>
+}

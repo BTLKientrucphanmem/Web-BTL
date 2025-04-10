@@ -1,0 +1,198 @@
+﻿@{
+    ViewData["Title"] = "Movies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <link href="~/css/genre.css" rel="stylesheet" />
+    <link href="~/css/grid.css" rel="stylesheet">
+    <link href="~/css/app.css" rel="stylesheet">
+}
+@model IEnumerable<MediaModel>
+
+
+
+
+<div class="t-body-wrapper" style=" position: relative;z-index: 2; ">
+    @*   style=" position: relative;z-index: 1; *@
+
+
+    <div class="t-body">
+        <div class="t-header-and-movie-section">
+            <div class="t-header-section">
+                @* <div class="t-menu">
+                <a href="@Url.Action("AllMedias","Genre")">Tất cả</a>
+                @foreach (var genre in ViewBag.Genre)
+                {
+                <a href="javascript:void(0)" onclick="filterMovies(@genre.GenreId)">
+                @genre.Type
+                </a>
+                }
+                </div>  *@
+
+                <div class="container" style="width:100%;">
+                    @* <h2>Danh sách thể loại</h2> *@
+                    <div style="background-color: #333; padding: 20px; border-radius: 5px; color: white;">
+                        @await Component.InvokeAsync("Genre")
+                    </div>
+                    <div class="t-header-label">
+                        Danh Sách Phim
+                    </div>
+
+
+
+                    <button id="filterButton" class="btn btn-primary" onclick="toggleFilterForm()">Bộ Lọc</button>
+                    <div id="filterForm" style="display: none; margin-top: 20px;">
+                        <form id="filterForm" method="get" asp-action="Index">
+                            <div class="form-group">
+                                <label for="actor">Diễn Viên</label>
+                                <select id="actor" name="actorId" class="form-control">
+                                    <option value="">Chọn Diễn Viên</option>
+                                    @foreach (var actor in ViewBag.AllActors)
+                                    {
+                                        <option value="@actor.Value">@actor.Text</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="genre">Thể Loại</label>
+                                <select id="genre" name="genreId" class="form-control">
+                                    <option value="">Chọn Thể Loại</option>
+                                    @foreach (var genre in ViewBag.AllGenres)
+                                    {
+                                        <option value="@genre.Value">@genre.Text</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="quality">Chất Lượng</label>
+                                <select id="quality" name="quality" class="form-control">
+                                    <option value="">Chọn Chất Lượng</option>
+                                    @foreach (var quality in ViewBag.AllQualities)
+                                    {
+                                        <option value="@quality">@quality</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="duration">Thời Lượng</label>
+                                <select id="duration" name="duration" class="form-control">
+                                    <option value="">Chọn Thời Lượng</option>
+                                    <option value="short">Ngắn (<= 1 giờ)</option>
+                                    <option value="medium">Trung Bình (1-2 giờ)</option>
+                                    <option value="long">Dài (> 2 giờ)</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Tìm Kiếm</button>
+                        </form>
+                    </div>
+
+
+
+                    <div id="media-section">
+
+                        <div class="t-movie-section">
+                            @foreach (var item in Model.Take(10))
+                            {
+                                <a class="t-movie" href="#">
+                                    <form asp-action="Index" asp-controller="Movie" method="post">
+                                        <input type="hidden" name="movieId" value="@item.MediaId" />
+                                        <button type="submit" style="border:none; background:none;">
+                                            <img src="@Url.Content("./images/medias/" + @item.MediaImagePath)" alt="@item.MediaName">
+                                        </button>
+                                    </form>
+
+                                    <div class="t-movie-content">
+                                        <div class="t-movie-title">@item.MediaName</div>
+                                        <div class="t-movie-info">
+                                            <div>
+                                                <i class="bx bxs-star"></i>
+                                                <span>9.5</span>
+                                            </div>
+                                            <div>
+                                                <i class="bx bxs-time"></i>
+                                                <span>@item.MediaDuration</span>
+                                            </div>
+                                            <div>
+                                                <span>@item.MediaQuality</span>
+                                            </div>
+                                            <div>
+                                                <span>@item.MediaAgeRating</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+
+            <div>
+                <a href="@Url.Action("AllMedias", "Genre")" class="t-btn-more">Xem Thêm...</a>
+            </div>
+        </div>
+
+      
+
+
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        function toggleFilterForm() {
+            var filterForm = document.getElementById("filterForm");
+            if (filterForm.style.display === "none") {
+                filterForm.style.display = "block";
+            } else {
+                filterForm.style.display = "none";
+            }
+        }
+    </script>
+
+    <script>
+
+
+
+        $(document).ready(function () {
+            const dropdown = $("#genreDropdown");
+
+            // Sự kiện khi nhấn vào nút "Thể loại" để hiện/ẩn dropdown
+            $("#genreButton").click(function () {
+                dropdown.toggle(); // Chuyển đổi hiển thị/ẩn của danh sách genres
+            });
+
+            // Gắn sự kiện click vào các nút bên trong .genre-item
+            $(document).on("click", ".genre-item button", function () {
+                var genreId = $(this).closest('.genre-item').data("id");
+                var genreName = $(this).text(); // Lấy tên thể loại
+
+                // Hiển thị tên thể loại đã chọn cạnh nút "Thể loại"
+                $("#selectedGenre").text(">> " + genreName);
+
+                $.ajax({
+                    url: '@Url.Action("FilteredMedias", "Genre")',
+                    type: 'GET',
+                    data: { genreId: genreId },
+                    success: function (response) {
+                        console.log("AJAX Success"); // Kiểm tra khi AJAX thành công
+                        $("#media-section").html(response); // Cập nhật phần tử với ID media-section với kết quả nhận được
+                        dropdown.hide(); // Ẩn dropdown sau khi lọc phim
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX Error: " + error); // Kiểm tra nếu có lỗi
+                        console.log("Status: " + status);
+                        console.log("Response: " + xhr.responseText); // In ra nội dung lỗi từ server nếu có
+                    }
+                });
+            });
+        });
+
+    </script>
+}

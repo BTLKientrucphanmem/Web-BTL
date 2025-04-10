@@ -1,0 +1,10 @@
+@model List<string>
+
+<ul style="display: flex; list-style-type: none;">
+    @foreach(var package in Model)
+    {
+        <li style="margin-right: 15px;" id="@package" class="package">
+            <a href="javascript:void(0);">@package</a>
+        </li>
+    }
+</ul>

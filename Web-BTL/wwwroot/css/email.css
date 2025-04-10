@@ -1,0 +1,111 @@
+﻿.e-container {
+    width: 90%;
+    min-height: 80vh;
+    background-color: #181616;
+    margin: 80px auto 0 auto;
+}
+.e-container form{
+    text-align: center;
+    width : 30%;
+    margin: 0 auto;
+}
+.form-title{
+    width: 100%;
+    text-align: center;
+}
+.e-sign-in-area{
+    padding: 20px 0;
+}
+.password-group{
+    position: relative;
+}
+.input-group input {
+    width : 100%;
+    border: 0px;
+    border-bottom: 1px solid #3f4a50;
+    border-radius: 0px;
+    box-shadow: none;
+    padding-left: 25px;
+    height: 45px;
+    color: #fff;
+    font-weight: 600;
+    background : none;
+}
+    .input-group input.e-email {
+        background: url(../images/icon-email.png) no-repeat 0px center;
+    }
+
+    .input-group input.e-password {
+        background: url(../images/icon-pass.png) no-repeat 0px center;
+    }
+    .input-group input.e-user{
+        background: url(../images/icon-user.png) no-repeat 0px center;
+    }
+    .input-group input:focus{
+    outline: none;
+    }
+.recover {
+    position: absolute;
+    right: 0;
+    top: 10px;
+    color: #3b5998;
+}
+.e-btn {
+    height: 45px;
+    background-color: #181616;
+    border: none;
+}
+.or{
+    text-align: center;
+}
+.other-way{
+    display : flex;
+    justify-content: center;
+}
+.icons i{
+    padding: 0px 3px;
+}
+.links{
+    display: flex;
+}
+    .links p{
+    padding : 3px;
+    }
+    .links a {
+        padding: 3px;
+    }
+    .links a:hover{
+        color: #3b5998;
+    }
+
+/*    SendOTP*/
+.otp-container{
+    width: 90%;
+    height: 50vh;
+    background-color: #181616;
+    margin: 80px auto 0 auto;
+}
+.e-otp-container{
+    width : 50%;
+    margin: 0 auto;
+}
+.otp {
+    display: flex;
+    gap: 5px; /* Khoảng cách giữa các input */
+    flex-wrap: wrap;
+}
+    .otp input {
+        flex: 1; /* Chia đều chiều rộng cho các input */
+        font-size: 20px;
+        text-align: center;
+        height: 30px;
+        min-width: 0; /* Đảm bảo input không tràn ra ngoài */
+        box-sizing: border-box;
+    }
+.otp-resend{
+    margin-top: 20px;
+}
+.otp-resend a{
+    margin-left: 10px;
+    color: #3b5998;
+}

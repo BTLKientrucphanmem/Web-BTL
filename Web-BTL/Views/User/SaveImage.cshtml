@@ -1,0 +1,13 @@
+﻿@using Web_BTL.Models
+@model UserModel
+
+@section Styles {
+    <link href="~/css/user.css" rel="stylesheet" />
+}
+
+<form asp-action="SaveImage" enctype="multipart/form-data" method="post">
+    <img src="@Url.Content("~/images/users/" + Model.UserImagePath)@($"?timestamp={DateTime.Now.Ticks}")" alt="default" id="imgload" />
+    <input class="u-add-img" type="file" name="image" placeholder="Add Image" required/>
+    <button type="submit" class="btn btn-outline-primary">Save</button>
+</form>
+

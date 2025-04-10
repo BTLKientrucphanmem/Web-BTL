@@ -1,0 +1,192 @@
+﻿@using Web_BTL.Models
+@model MediaModel
+
+@{
+    ViewData["Title"] = "@Model.MediaName";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <link rel="stylesheet" href="css/main.css">
+    <link href="~/css/grid.css" rel="stylesheet">
+    <link href="~/css/app.css" rel="stylesheet">
+}
+
+<main role="main" class="main">
+    <div class="cast-container">
+        <div class="cast-wrap d-flex">
+            <div class="movie-poster">
+                <img src="@Url.Content("./images/medias/" + @Model.MediaImagePath)" alt="">
+                <a asp-action="Watching" asp-controller="Movie" asp-route-movieId="@Model.MediaId" class="m-btn btn-primary btn-lg btn-block"><i class="fa fa-television" aria-hidden="true"></i>   Xem phim</a>
+                <button type="button" class="m-btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#trailerMovie">
+                    Trailer
+                </button>
+                <div id="modalContainer"></div>
+                <!-- Modal -->
+                <div class="modal fade bd-example-modal-lg" id="trailerMovie" tabindex="-1" role="dialog" aria-labelledby="trailerMovieLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="trailerMovieLabel">Trailer @Model.MediaName</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <iframe width="860" height="515" src="@Model.MediaUrl" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.movie-poster -->
+            <div class="cast-info">
+                <div class="cast-name">
+                    <h3>@Model.MediaName</h3>
+                </div>
+                <div class="cast-job">
+                    <a href="#">@Model.MediaName</a>
+                </div>
+                <div class="movie-social">
+                    <a href="javascript:void(0);" onclick="addFavorite(@Model.MediaId)"><i class="fa fa-heart" aria-hidden="true"></i> Lưu phim</a>
+                    <a href="#"><i class="fa fa-facebook-official" aria-hidden="true"></i> Chia sẻ</a>
+                </div>
+                <div class="movie-rate">
+                    <div class="movie-rate__point">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <p>
+                            <span>8.1</span> /10<br>
+                            <span class="rv">56 Đánh giá</span>
+                        </p>
+                    </div>
+                    <div class="movie-rate__rate-star">
+                        <p>Đánh giá phim: </p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="cast-bio movie-nav-tabs">
+                    <ul class="m-nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Tổng quát</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Đánh giá</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="cast-tab" data-toggle="tab" href="#cast" role="tab" aria-controls="cast" aria-selected="false">Diễn viên</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                            <p>@Model.MediaDescription</p>
+                        </div>
+                        <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+
+                        </div>
+
+                        <div class="tab-pane fade" id="cast" role="tabpanel" aria-labelledby="cast-tab">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="card">
+                                        <a href="cast-detail.html"><img class="card-img-top" src="images/cast/icast-5.jpg" alt="Card image cap"></a>
+                                        <div class="card-block">
+                                            <h4 class="card-title text-center"><a href="#">Gal Gadot</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- / item 5 -->
+
+                                <div class="col-md-3">
+                                    <div class="card">
+                                        <a href="cast-detail.html"><img class="card-img-top" src="images/cast/icast-6.jpg" alt="Card image cap"></a>
+                                        <div class="card-block">
+                                            <h4 class="card-title text-center"><a href="#">Ezra Miller</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- / item 6 -->
+
+                                <div class="col-md-3">
+                                    <div class="card">
+                                        <a href="cast-detail.html"><img class="card-img-top" src="images/cast/icast-7.jpg" alt="Card image cap"></a>
+                                        <div class="card-block">
+                                            <h4 class="card-title text-center"><a href="#">Ben Affleck</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- / item 7 -->
+
+                                <div class="col-md-3">
+                                    <div class="card">
+                                        <a href="cast-detail.html"><img class="card-img-top" src="images/cast/icast-8.jpg" alt="Card image cap"></a>
+                                        <div class="card-block">
+                                            <h4 class="card-title text-center"><a href="#">Tom Cavanagh</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- / item 6 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script src="js/jquery-3.2.1.slim.min.js"></script>
+<script src="js/vendor/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+    // Lấy tất cả các tab và nội dung tương ứng của chúng
+    const tabs = document.querySelectorAll('.nav-link');
+    const tabContents = document.querySelectorAll('.tab-pane');
+
+    // Lặp qua từng tab để gắn sự kiện click
+    tabs.forEach((tab, index) => {
+        tab.addEventListener('click', (event) => {
+            event.preventDefault();  // Ngăn chặn sự kiện mặc định khi click vào liên kết
+
+            // Xóa lớp active và show từ tất cả các tab và nội dung
+            tabs.forEach(t => t.classList.remove('active'));
+            tabContents.forEach(content => {
+                content.classList.remove('show', 'active');
+            });
+
+            // Thêm lớp active vào tab hiện tại và lớp show + active vào nội dung tương ứng
+            tab.classList.add('active');
+            tabContents[index].classList.add('show', 'active');
+        });
+    });
+    function addFavorite(mediaId) {
+    $.ajax({
+        type: "POST",
+        url: "/Movie/AddFavourite",
+        data: { mid: mediaId },
+        success: function (response) {
+            // Chèn nội dung modal vào một phần tử trên trang, ví dụ #modalContainer
+            $('#modalContainer').html(response); // Chắc chắn rằng bạn có phần tử này trong HTML
+
+            // Hiển thị modal
+            $('#favoriteModal').modal('show');
+
+            // Tự động đóng modal sau 3 giây
+            setTimeout(function () {
+                $('#favoriteModal').modal('hide');
+            }, 3000); // 3000 milliseconds = 3 seconds
+        },
+        error: function () {
+            alert("Không thể thêm vào danh sách yêu thích.");
+        }
+    });
+    }
+</script>

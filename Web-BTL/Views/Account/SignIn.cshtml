@@ -1,0 +1,51 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/email.css">
+    <link href="~/css/grid.css" rel="stylesheet">
+    <link href="~/css/app.css" rel="stylesheet">
+}
+
+@model LogInModel
+<div class="e-container" id="signIn">
+    <h1 class="form-title">Sign In</h1>
+    <form method="post" asp-controller="Account" asp-action="SignIn">
+        <div id="signInMessage" class="messageDiv" style="display:none;"></div>
+        <div class="e-sign-in-area">
+            <div class="input-group">
+                <input asp-for="LogInName" class="e-email" placeholder="Email" required>
+            </div>
+            <div class="input-group password-group">
+                <input asp-for="Password" class="e-password" placeholder="Password" required>
+                <p class="recover">
+                    <a asp-controller="Account" asp-action="RecoverPassword">Recover Password</a>
+                </p>
+            </div>
+        </div>  
+        <button class="e-btn btn btn-hover" type="submit">
+            <span>Sign In</span>
+        </button>
+
+    </form>
+    <p class="or">
+        ----------or----------
+    </p>
+    <div class="other-way">
+        <!--
+        <div class="icons">
+            <i class="fab fa-google"></i>
+            <i class="fab fa-facebook"></i>
+        </div>
+        -->
+        <div class="links">
+            <p>Don't have account yet?</p>
+            <a id="signUpButton" asp-controller="Account" asp-action="SignUp">Sign Up</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/email.js"></script>
+}

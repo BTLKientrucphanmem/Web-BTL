@@ -1,0 +1,33 @@
+﻿@model IEnumerable<GenreModel>
+
+@*  <ul class="genre-list">
+    @foreach (var genre in Model)
+    {
+        <li id="genre-@genre.GenreId" class="genre-item" data-id="@genre.GenreId">
+            <button type="button" class="btn btn-link">@genre.Type</button>
+        </li>
+    }
+</ul>  *@
+
+
+
+ <button id="genreButton" class="btn btn-primary">Thể loại</button>
+<span id="selectedGenre" style="margin-left: 10px; color: white;"></span>
+<div id="genreDropdown" class="dropdown-content" style="display: none;">
+    <ul class="genre-list">
+        <li class="genre-item">
+            <a href="@Url.Action("AllMedias", "Genre")" class="btn btn-link" style="text-decoration: none;">Tất cả</a>
+        </li>
+        @foreach (var genre in Model)
+        {
+            <li id="genre-@genre.GenreId" class="genre-item" data-id="@genre.GenreId">
+                <button type="button" class="btn btn-link" style="text-decoration: none;">@genre.Type</button>
+            </li>
+        }
+    </ul>
+</div> 
+
+
+
+
+

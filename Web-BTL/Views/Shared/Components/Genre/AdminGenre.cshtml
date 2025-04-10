@@ -1,0 +1,10 @@
+﻿@using Web_BTL.Models
+@model IEnumerable<GenreModel>
+<ul style="display: flex; list-style-type: none;">
+    @foreach (var genre in Model)
+    {
+        <li style="margin-right: 15px;" id="@genre.GenreId" class="genre">
+            <a href="javascript:void(0);">@genre.Type</a>
+        </li>
+    }
+</ul>

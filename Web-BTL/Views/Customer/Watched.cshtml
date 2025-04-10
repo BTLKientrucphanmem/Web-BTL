@@ -1,0 +1,62 @@
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <link href="~/css/genre.css" rel="stylesheet" />
+    <link href="~/css/grid.css" rel="stylesheet">
+    <link href="~/css/app.css" rel="stylesheet">
+}
+@model IEnumerable<MediaModel>
+
+
+<div class="t-body-wrapper">
+    <div class="t-body">
+        <div class="t-header-and-movie-section">
+            <div class="t-header-section">
+                <div class="t-header-label">
+                    Phim Đã Xem
+                </div>
+            </div>
+
+            <div class="t-movie-section">
+                @foreach (var item in Model)
+                {
+                    <a class="t-movie" asp-controler="Movie" asp-action="Index" asp-route-movieId="@item.MediaId">
+
+                        <form asp-action="Index" asp-controller="Movie" method="post">
+                            <input type="hidden" name="movieId" value="@item.MediaId" />
+                            <button type="submit" style="border:none; background:none;">
+                                <img src="@Url.Content("../images/medias/" + @item.MediaImagePath)" alt="@item.MediaName" />
+                            </button>
+                        </form>
+
+                        <div class="t-movie-content">
+                            <div class="t-movie-title">@item.MediaName</div>
+                            <div class="t-movie-info">
+                                <div>
+                                    <i class="bx bxs-star"></i>
+                                    <span>9.5</span>
+                                </div>
+                                <div>
+                                    <i class="bx bxs-time"></i>
+                                    <span>@item.MediaDuration</span>
+                                </div>
+                                <div>
+                                    <span>@item.MediaQuality</span>
+                                </div>
+                                <div>
+                                    <span>@item.MediaAgeRating</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </a>
+                }
+            </div>
+
+
+        </div>
+    </div>
+</div>
+

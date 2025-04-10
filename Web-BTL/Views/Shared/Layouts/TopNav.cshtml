@@ -1,0 +1,58 @@
+@section Styles {
+    <link href="~/css/grid.css" rel="stylesheet">
+    <link href="~/css/app.css" rel="stylesheet">
+}
+
+@{
+    var session = Context.Session;
+    var user = session.GetString("LogIn Session");
+    var role = session.GetString("Admin");
+    var str = "User";
+    if (role != null)
+    {
+        str = "Admin";
+    }
+}
+
+<div class="nav-wrapper" id="topnav">
+    <div class="container">
+        <div class="nav">
+            <a asp-controller="Home" asp-action="Index" class="logo">
+                <i class='bx bx-movie-play bx-tada main-color'></i>Fl<span class="main-color">i</span>x
+            </a>
+
+            <form method="get" asp-action="AllMedias" asp-controller="Genre" class="search-form">
+                <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" placeholder="Search by movie name" class="search-input" />
+                <button type="submit" class="search-button">
+                    <i class='bx bx-search'></i>
+                </button>
+            </form>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a id="home" asp-controller="Home" asp-action="Index">Home</a></li>
+                <li><a id="genre" asp-controller="Genre" asp-action="Index">Genre</a></li>
+                <li><a id="about" href="#">About</a></li>
+                @if (user != null)
+                {
+                    <li>
+                        <a asp-controller="User" asp-action="UserInformation" class="btn btn-hover">
+                            <span>@str</span>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a asp-controller="Account" asp-action="SignIn" class="btn btn-hover">
+                            <span>Sign in</span>
+                        </a>
+                    </li>
+                }
+
+            </ul>
+            <!-- MOBILE MENU TOGGLE -->
+            <div class="hamburger-menu" id="hamburger-menu">
+                <div class="hamburger"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,95 @@
+﻿@using Web_BTL.Models
+@model MediaModel
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin.css">
+}
+
+<div class="a-container">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <form asp-action="AddMedia" method="post" enctype="multipart/form-data" id="addMediaForm">
+        <!--Nhập tên phim-->
+        <div style="margin-top: 7px" class="form-group row">
+            <span asp-validation-for="MediaName" class="text-danger"></span>
+            <div>
+                <input asp-for="MediaName" class="form-control" placeholder="Tên phim" />
+            </div>
+        </div>
+        <!--Mô tả phim-->
+        <div style="margin-top: 7px" class="form-group row">
+            <span asp-validation-for="MediaDescription" class="text-danger"></span>
+            <div>
+                <input asp-for="MediaDescription" class="form-control" placeholder="Mô tả phim" />
+            </div>
+        </div>
+        <!--Chất lượng phim-->
+        <div style="margin-top: 7px" class="form-group row">
+            <span asp-validation-for="MediaQuality" class="text-danger"></span>
+            <div>
+                <input asp-for="MediaQuality" class="form-control" placeholder="Chất lượng" />
+            </div>
+        </div>
+        <!--Ngày phát hành-->
+        <div style="margin-top: 7px" class="form-group row">
+            <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            <div>
+                <input asp-for="ReleaseDate" class="form-control" placeholder="Ngày phát hành" />
+            </div>
+        </div>
+        <!--Số tuổi được xem-->
+        <div style="margin-top: 7px" class="form-group row">
+            <span asp-validation-for="MediaAgeRating" class="text-danger"></span>
+            <div>
+                <input asp-for="MediaAgeRating" class="form-control" placeholder="Độ tuổi giới hạn" />
+            </div>
+        </div>
+        <!--Thời lượng phim-->
+        @*<div style="margin-top: 7px" class="form-group row">
+        <span asp-validation-for="MediaDuration" class="text-danger"></span>
+        <div>
+                <input asp-for="MediaDuration" type="text" placeholder="HH:mm:ss" pattern="^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$" class="form-control" title="Nhập theo định dạng HH:mm:ss" />
+        </div>
+        </div>*@
+       
+        <!--Điền thể loại-->
+        <div style="margin-top: 7px" class="form-group row">
+            <ul>
+                @foreach (var item in ViewBag.AllGenres)
+                {
+                    <li>
+                        <input type="checkbox" name="SelectedGenreId" value="@item.Value" />
+                        @item.Text <br />
+                    </li>
+                }
+            </ul>
+        </div>
+        <!--Điền ảnh phim-->
+        <div style="margin-top: 7px" class="form-group row">
+            <p>Ảnh :</p>
+            <input name="image" type="file" />
+        </div>
+        <div style="margin-top: 7px" class="form-group row">
+            <p>Banner :</p>
+            <input name="banner" type="file" />
+        </div>
+        <!--Điền Video(phim)-->
+        <div style="margin-top: 7px; margin-bottom : 7px" class="form-group row">
+            <p>Video :</p>
+            <input name="video" type="file" />
+        </div>
+        <button type="submit" class="btn btn-outline-primary">Submit</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        // document.getElementById("addMediaForm").addEventListener("submit", function (e) {
+        //     var timeInput = document.querySelector("input[name = 'MediaDuration']");
+        //     var timePatter = /^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
+        //     if (timePatter.test(timeInput.value)){
+        //         alert("Vui lòng nhập lại thời lượng phim theo định dạng");
+        //         e.preventDefault();
+        //     }
+        // });
+    </script>
+}

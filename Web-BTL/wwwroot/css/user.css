@@ -1,0 +1,43 @@
+﻿.user-info-container{
+    margin: 70px auto auto auto !important;
+}
+.user-info-header {
+    padding: 10px 20px;
+    border-left: 4px solid #1f83ed;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+.u-container{
+    display: block;
+}
+.user-avartar-detail{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+}
+.user-avatar {
+    width: 250px;
+    text-align: center;
+}
+    .user-avatar img {
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        border: 2px solid #1f83ed;
+        overflow: hidden;
+    }
+.u-btn{
+    display: block;
+    margin: 20px auto;
+}
+.u-add-img{
+    display: block;
+}
+.user-details-container{
+    margin-left: 50px;
+}
+.log-out {
+    width: 100%;
+    text-align: end;
+}

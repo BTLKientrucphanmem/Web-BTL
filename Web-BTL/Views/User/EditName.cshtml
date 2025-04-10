@@ -1,0 +1,7 @@
+﻿@using Web_BTL.Models
+@model UserModel
+
+<form asp-action="EditName" method="post">
+    <input type="text" name="name" value="@Model.UserName"/>
+    <button class="btn btn-outline-primary" type="submit">save</button>
+</form>

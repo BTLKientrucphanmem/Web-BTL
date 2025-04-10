@@ -1,0 +1,132 @@
+﻿@using Web_BTL.Models
+@model UserModel
+
+@{
+    ViewData["Title"] = "User Information";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <link href="~/css/user.css" rel="stylesheet" />
+    <link href="~/css/grid.css" rel="stylesheet">
+    <link href="~/css/app.css" rel="stylesheet">
+}
+
+<div class="container user-info-container">
+    <h1 class="user-info-header">User Information</h1>
+    <div class="u-container">
+        <div class="user-avartar-detail">
+            <!-- User Avatar -->
+            <div class="user-avartar-container">
+                <div class="user-avatar" id="image">
+                    @*<img id="avatarImg" src="@Url.Content("~/images/users/" + Model.UserImagePath + "?timestamp=@DateTime.Now.Ticks")" alt="User Avatar">*@
+                    <div>
+                        <img id="avatarImg" src="@Url.Content("~/images/users/" + Model.UserImagePath)@($"?timestamp={DateTime.Now.Ticks}")" alt="User Avatar">
+                    </div>
+                    <a class="btn u-btn btn-outline-primary" data-action="SaveImage">edit</a>
+                </div>
+            </div>
+
+            <!-- User Details -->
+            <div class="user-details-container">
+                <div class="user-details">
+                    <div id="name">
+                        <span class="user-info-label">Full Name:</span>
+                        <span id="fullName">@Model.UserName</span>
+                        <a class="btn btn-outline-primary" data-action="EditName">edit</a>
+                    </div>
+                    <div>
+                        <span class="user-info-label">Username:</span> @Model.UserLogin
+
+                    </div>
+                    <div>
+                        <span class="user-info-label">Email:</span> @Model.UserEmail
+                    </div>
+                    <div>
+                        <span class="user-info-label">Account Created:</span> @Model.UserCreateDate
+                    </div>                    
+                    @if (Model is CustomerModel)
+                    {
+                        var cus = (CustomerModel)Model;  
+                        <!-- Mật khẩu -->
+                        <div id="password">
+                            @if (ViewData.ModelState.IsValid) // kiểm tra xem ViewData.ModelState có được add thêm lỗi không
+                            {
+                                <a class="btn btn-outline-primary" data-action="EditPassword">Change Password</a>
+                            }
+                            else
+                            {
+                                <span class="text-danger">@Html.ValidationMessage("ErrorPassword", "", new { @class = "text-danger" })</span>
+                                @Html.Partial("EditPassword")
+                            }
+                        </div>
+                        <hr />
+                        <a class="btn btn-primary" asp-controller="Customer" asp-action="Watched" id="watched">Các phim đã xem</a>
+                        <a class="btn btn-outline-primary" asp-controller="Customer" asp-action="Favourite" id="favourite">Danh sách yêu thích</a>
+                    }
+                    @if (Model is AdminModel)
+                    {
+                        var ad = (AdminModel)Model;
+                        <span class="user-info-label">Quyền: </span>
+
+                        @ad.Role
+                        var tmp = (byte)ad.Role;
+                        if (tmp < 2)
+                        {
+                            <a style="display: block" class="btn btn-primary" id="listMedia" asp-controller="Admin" asp-action="Index">Danh Sách Phim</a>
+                        }
+                        if (tmp == 0 || tmp == 2)
+                        {
+                            <a style="display: block"  class="btn btn-outline-primary" id=""></a>
+                        }
+                        if (tmp == 0 || tmp == 3)
+                        {
+                            <a style="display: block"  class="btn btn-outline-primary" id="listCustomer" asp-controller="Admin" asp-action="ListCustomer">Danh Sách Người Dùng</a>
+                        }
+                    }
+                    
+                </div>
+            </div>
+        </div>
+        <div class="log-out">
+            <a class="btn btn-outline-primary" id="LogOut" asp-action="LogOut" >Đăng xuất</a>
+        </div>
+    </div>
+</div>
+<div id="list"></div>
+@section Scripts {
+    <!-- Thêm jQuery từ CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Đoạn mã của bạn nên được nạp sau jQuery -->
+    <script src="path/to/your/custom/script.js"></script>
+    <script>
+        $("a").click(function (e) {
+            var id = $(this).attr("id");
+            var action = $(this).data("action");
+            var url = "/User/";
+            var tmp = "div#";
+            if (id === "listMedia"  || id == "listCustomer" || id == "about" || id == "home" || id == "genre" || id == "favourite" || id == "watched" || id == "LogOut") return;
+            e.preventDefault();
+            if (action === "SaveImage") {
+                url += "Image";
+                tmp += "image"
+            } else if (action === "EditName") {
+                url += "Name";
+                tmp += "name";
+            } else if (action === "EditPassword") {
+                url += "rPassword";
+                tmp += "password";
+            }
+            $.ajax({
+                url: url,
+                success: function (response) {
+                    $(tmp).html(response);
+                }
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            var img = document.getElementById("imfload");
+            img.src = img.src.split("?")[0] + "?v=" + new Date().getTime();
+        });
+    </script>
+    @**@
+}

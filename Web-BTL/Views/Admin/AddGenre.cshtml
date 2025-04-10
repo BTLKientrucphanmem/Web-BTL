@@ -1,0 +1,16 @@
+﻿@using Web_BTL.Models
+@model GenreModel
+
+<div>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <form asp-action="AddGenre" method="post" id="addGenreForm">
+        <!--Nhập tên phim-->
+        <div style="margin-top: 7px" class="form-group row">
+            <span asp-validation-for="Type" class="text-danger"></span>
+            <div>
+                <input asp-for="Type" class="form-control" placeholder="Tên thể loại" />
+            </div>
+        </div>
+        <button type="submit" class="btn btn-outline-primary">Submit</button>
+    </form>
+</div>

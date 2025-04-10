@@ -1,0 +1,46 @@
+﻿@{
+    var i = 0;
+}
+
+<div class="top-movies-slide">
+    <div class="owl-carousel" id="top-movies-slide">
+        <!-- MOVIE ITEM -->
+        @foreach (var movie in Model)
+        {
+            i++;
+            if (i <= 5)
+            {
+                <a class="movie-item">
+                    <form asp-action="Index" asp-controller="Movie" method="post">
+                        <input type="hidden" name="movieId" value="@movie.MediaId" />
+                        <button type="submit" style="border:none; background:none;">
+                            <img src="@Url.Content("~/images/medias/" + movie.MediaImagePath)" alt="@movie.MediaName" />
+
+                        </button>
+                    </form>
+                    <div class="movie-item-content">
+                        <div class="movie-item-title">
+                            @movie.MediaName
+                        </div>
+                        <div class="movie-infos">
+                            <div class="movie-info">
+                                <i class="bx bxs-star"></i>
+                                <span>9.5</span>
+                            </div>
+                            <div class="movie-info">
+                                <i class="bx bxs-time"></i>
+                                <span>120 mins</span>
+                            </div>
+                            <div class="movie-info">
+                                <span>HD</span>
+                            </div>
+                            <div class="movie-info">
+                                <span>16+</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+        }
+    </div>
+</div>
