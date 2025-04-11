@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Web_BTL.Repository;
-using Web_BTL.Models;
-using System.Linq;
-using System.Threading.Tasks;
+using Web_BTL.DataAccessLayer;
 
-namespace WebBTL.ViewComponents
-{
+namespace WebBTL.ViewComponents {
     public class GenreViewComponent : ViewComponent
     {
         private readonly DBXemPhimContext _context;

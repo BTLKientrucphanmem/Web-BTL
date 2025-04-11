@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Web_BTL.Controllers
+namespace Web_BTL.BusinessLogicLayer.Controllers
 {
     public class AboutController : Controller
     {

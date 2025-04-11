@@ -1,141 +1,66 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using Web_BTL.Models;
-using Web_BTL.Repository;
-using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
-using Web_BTL.Models;
+using Web_BTL.DataAccessLayer.Models;
+using Web_BTL.DataAccessLayer.Services;
+using Web_BTL.Services;
 
-namespace Web_BTL.Controllers
-{
-    public class GenreController : Controller
-    {
-        private DBXemPhimContext db;
-        public GenreController(DBXemPhimContext _db)
-        {
-            db = _db;
-        }
-        public IActionResult Index(int? actorId, int? genreId, string quality, string duration)
-        {
-            var medias = db.Medias.AsQueryable();
+namespace Web_BTL.Controllers {
+    // Controller xử lý các yêu cầu liên quan đến thể loại và danh sách media
+    public class GenreController : Controller {
+        private readonly IGenreService _genreService; // Dịch vụ nghiệp vụ xử lý logic liên quan đến thể loại và media
 
-            if (actorId.HasValue)
-            {
-                medias = medias.Where(m => m.Actors.Any(a => a.Actor.ActorID == actorId.Value));
-            }
-
-            if (genreId.HasValue)
-            {
-                medias = medias.Where(m => m.Genres.Any(g => g.GenreId == genreId.Value));
-            }
-
-            if (!string.IsNullOrEmpty(quality))
-            {
-                medias = medias.Where(m => m.MediaQuality == quality);
-            }
-
-            if (!string.IsNullOrEmpty(duration))
-            {
-                switch (duration)
-                {
-                    case "short":
-                        medias = medias.Where(m => m.MediaDuration.HasValue && m.MediaDuration.Value <= TimeSpan.FromMinutes(60));
-                        break;
-                    case "medium":
-                        medias = medias.Where(m => m.MediaDuration.HasValue && m.MediaDuration.Value > TimeSpan.FromMinutes(60) && m.MediaDuration.Value <= TimeSpan.FromMinutes(120));
-                        break;
-                    case "long":
-                        medias = medias.Where(m => m.MediaDuration.HasValue && m.MediaDuration.Value > TimeSpan.FromMinutes(120));
-                        break;
-                }
-            }
-
-            // Tạo dữ liệu cho DropdownList để hiển thị trong View
-            ViewBag.AllActors = db.Actors.Select(a => new SelectListItem
-            {
-                Text = a.ActorName,
-                Value = a.ActorID.ToString()
-            }).ToList();
-
-            ViewBag.AllGenres = db.Genres.Select(g => new SelectListItem
-            {
-                Text = g.Type,
-                Value = g.GenreId.ToString()
-            }).ToList();
-
-            ViewBag.AllQualities = db.Medias.Select(m => m.MediaQuality).Distinct().ToList();
-
-            return View(medias.ToList());
+        // Constructor: Tiêm IGenreService qua Dependency Injection
+        public GenreController(IGenreService genreService) {
+            _genreService = genreService;
         }
 
+        // Hiển thị danh sách media với các bộ lọc (diễn viên, thể loại, chất lượng, thời lượng)
+        public async Task<IActionResult> Index(int? actorId, int? genreId, string quality, string duration) {
+            // Gọi tầng nghiệp vụ để lấy danh sách media đã lọc và dữ liệu dropdown
+            var (medias, actors, genres, qualities) = await _genreService.GetFilteredMediasAsync(actorId, genreId, quality, duration);
 
+            // Gán dữ liệu vào ViewBag để hiển thị trong View
+            ViewBag.AllActors = actors;   // Danh sách diễn viên cho dropdown
+            ViewBag.AllGenres = genres;   // Danh sách thể loại cho dropdown
+            ViewBag.AllQualities = qualities; // Danh sách chất lượng cho dropdown
 
-        public IActionResult AllMedias(int? pageindex, string searchTerm)
-        {
-            // Khởi tạo IQueryable chứa danh sách MediaModel từ cơ sở dữ liệu
-            var medias = db.Medias.AsQueryable();
-
-            // Nếu có từ khóa tìm kiếm, lọc kết quả dựa trên tên phim
-            if (!string.IsNullOrEmpty(searchTerm))
-            {
-                medias = medias.Where(m => m.MediaName.Contains(searchTerm));
-            }
-
-            // Xác định số trang hiện tại
-            var page = pageindex ?? 1;
-
-            // Định nghĩa số lượng items trên mỗi trang
-            int pageSize = 8;  // Bạn có thể thay đổi giá trị PageSize tùy theo yêu cầu
-
-            // Tính tổng số trang dựa trên số lượng items và pageSize
-            int totalItems = medias.Count();
-            int pageNumbers = (int)Math.Ceiling(totalItems / (double)pageSize);
-
-            // Gán tổng số trang vào ViewBag để hiển thị trong View
-            ViewBag.PageNumbers = pageNumbers;
-            ViewBag.CurrentPage = page;
-            ViewBag.SearchTerm = searchTerm;
-
-            // Lấy các item cho trang hiện tại, sử dụng Skip và Take để phân trang
-            var result = medias
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
-
-            // Trả về View cùng với danh sách các MediaModel của trang hiện tại
-            return View(result);
+            // Trả về View với danh sách media đã lọc
+            return View(medias);
         }
 
+        // Hiển thị danh sách tất cả media với phân trang và tìm kiếm
+        public async Task<IActionResult> AllMedias(int? pageindex, string searchTerm) {
+            // Gọi tầng nghiệp vụ để lấy danh sách media phân trang và thông tin phân trang
+            var (medias, pageNumbers, currentPage, searchTermResult) = await _genreService.GetPagedMediasAsync(pageindex, searchTerm);
 
-        public IActionResult MoviesFilter(int? mid)
-        {
-            int PageSize = 8;
-            var medias = (IQueryable<MediaModel>)db.Medias;
+            // Gán dữ liệu vào ViewBag để hiển thị trong View
+            ViewBag.PageNumbers = pageNumbers;   // Tổng số trang
+            ViewBag.CurrentPage = currentPage;   // Trang hiện tại
+            ViewBag.SearchTerm = searchTermResult; // Từ khóa tìm kiếm để giữ lại trong form
 
-            if (mid != null)
-            {
-                medias = (IQueryable<MediaModel>)db.Medias
-                    .Where(m => m.Genres.Any(g => g.GenreId == mid));
-
-                ViewBag.mid = mid;
-            }
-
-            var result = medias.Take(PageSize).ToList();
-
-            return PartialView("_MediaPartial", result);
+            // Trả về View với danh sách media phân trang
+            return View(medias);
         }
 
+        // Lọc media theo thể loại và trả về PartialView với số lượng giới hạn
+        public async Task<IActionResult> MoviesFilter(int? mid) {
+            // Gọi tầng nghiệp vụ để lấy danh sách media theo thể loại
+            var medias = await _genreService.GetMediasByGenreIdAsync(mid);
 
+            // Gán ID thể loại vào ViewBag để sử dụng trong PartialView nếu cần
+            ViewBag.mid = mid;
 
-        public IActionResult FilteredMedias(int genreId)
-        {
-            var medias = db.Medias
-                                 .Where(m => m.Genres.Any(g => g.GenreId == genreId))
-                                 .ToList();
+            // Trả về PartialView với danh sách media
+            return PartialView("_MediaPartial", medias);
+        }
+
+        // Lọc media theo thể loại và trả về PartialView với layout cụ thể
+        public async Task<IActionResult> FilteredMedias(int genreId) {
+            // Gọi tầng nghiệp vụ để lấy danh sách media theo thể loại
+            var medias = await _genreService.GetFilteredMediasByGenreIdAsync(genreId);
+
+            // Trả về PartialView với đường dẫn cụ thể trong thư mục Layouts
             return PartialView("Layouts/_MediaPartial", medias);
         }
-
-
     }
 }

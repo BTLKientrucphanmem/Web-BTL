@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Web_BTL.DataAccessLayer.Models
+@model IEnumerable<MediaModel>
+
+@{
     ViewData["Title"] = "Movies";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -7,7 +10,7 @@
     <link href="~/css/grid.css" rel="stylesheet">
     <link href="~/css/app.css" rel="stylesheet">
 }
-@model IEnumerable<MediaModel>
+
 
 
 

@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Web_BTL.Models;
-using Web_BTL.Repository;
+using Web_BTL.DataAccessLayer;
+using Web_BTL.DataAccessLayer.Models;
 
-namespace Web_BTL.Controllers
-{
+namespace Web_BTL.BusinessLogicLayer.Controllers {
     public class MovieController : Controller
     {
         private readonly DBXemPhimContext db;

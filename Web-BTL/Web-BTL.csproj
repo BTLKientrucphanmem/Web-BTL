@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -6,6 +6,143 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Web_BTL</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\admin.css" />
+    <None Include="wwwroot\css\app.css" />
+    <None Include="wwwroot\css\email.css" />
+    <None Include="wwwroot\css\genre.css" />
+    <None Include="wwwroot\css\grid.css" />
+    <None Include="wwwroot\css\main.css" />
+    <None Include="wwwroot\css\user.css" />
+    <None Include="wwwroot\css\video-js.min.css" />
+    <None Include="wwwroot\favicon.ico" />
+    <None Include="wwwroot\images\app-store.png" />
+    <None Include="wwwroot\images\banners\ABCbanner.jpg" />
+    <None Include="wwwroot\images\banners\banner.png" />
+    <None Include="wwwroot\images\banners\Batmanbanner.png" />
+    <None Include="wwwroot\images\banners\Black Pantherbanner.png" />
+    <None Include="wwwroot\images\banners\Con cho cắn con chóbanner.jpg" />
+    <None Include="wwwroot\images\banners\Dogobanner.jpg" />
+    <None Include="wwwroot\images\banners\Dragon Ballbanner.jpg" />
+    <None Include="wwwroot\images\banners\GOTG Vol 3banner.png" />
+    <None Include="wwwroot\images\banners\John Wickbanner.png" />
+    <None Include="wwwroot\images\banners\Over the moonbanner.jpg" />
+    <None Include="wwwroot\images\banners\Star Trekbanner.jpg" />
+    <None Include="wwwroot\images\banners\Stranger Thingbanner.jpg" />
+    <None Include="wwwroot\images\banners\Supergirlbanner.jpg" />
+    <None Include="wwwroot\images\banners\testbanner.jpg" />
+    <None Include="wwwroot\images\banners\The Falconbanner.webp" />
+    <None Include="wwwroot\images\banners\Tranformerbanner.png" />
+    <None Include="wwwroot\images\banners\Your Namebanner.jpg" />
+    <None Include="wwwroot\images\google-play.png" />
+    <None Include="wwwroot\images\icon-email.png" />
+    <None Include="wwwroot\images\icon-pass.png" />
+    <None Include="wwwroot\images\icon-user.png" />
+    <None Include="wwwroot\images\medias\.jpg" />
+    <None Include="wwwroot\images\medias\ABC.jpg" />
+    <None Include="wwwroot\images\medias\Batman.jpg" />
+    <None Include="wwwroot\images\medias\BlackPanther.jpg" />
+    <None Include="wwwroot\images\medias\Blood Shot.jpg" />
+    <None Include="wwwroot\images\medias\Con cho cắn con chó.jpg" />
+    <None Include="wwwroot\images\medias\Demon Slayer.jpg" />
+    <None Include="wwwroot\images\medias\Dogo.jpg" />
+    <None Include="wwwroot\images\medias\Dragon Ball.jpg" />
+    <None Include="wwwroot\images\medias\GOTG Vol 3.jpg" />
+    <None Include="wwwroot\images\medias\John Wick.jpg" />
+    <None Include="wwwroot\images\medias\Over the moon.jpg" />
+    <None Include="wwwroot\images\medias\Star Trek.jpg" />
+    <None Include="wwwroot\images\medias\Stranger Thing.jpg" />
+    <None Include="wwwroot\images\medias\Supergirl.jpg" />
+    <None Include="wwwroot\images\medias\The Falcon.webp" />
+    <None Include="wwwroot\images\medias\Tranformer.jpg" />
+    <None Include="wwwroot\images\medias\Transformer.jpg" />
+    <None Include="wwwroot\images\medias\Your Name.jpg" />
+    <None Include="wwwroot\images\movie logo.png" />
+    <None Include="wwwroot\images\transformer-banner.jpg" />
+    <None Include="wwwroot\images\users\haibui,.png" />
+    <None Include="wwwroot\images\users\maixuandoanh.jpg" />
+    <None Include="wwwroot\images\users\maixuandoanh.png" />
+    <None Include="wwwroot\images\users\maixuandoanhno1.jpg" />
+    <None Include="wwwroot\images\users\maixuandoanhno3.jpg" />
+    <None Include="wwwroot\js\app.js" />
+    <None Include="wwwroot\js\email.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\LICENSE" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\LICENSE.md" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+    <None Include="wwwroot\lib\jquery\LICENSE.txt" />
+    <None Include="wwwroot\videos\ABCngon.mp4" />
+    <None Include="wwwroot\videos\BatmanHigh.mp4" />
+    <None Include="wwwroot\videos\Black PantherHD.mp4" />
+    <None Include="wwwroot\videos\Con cho cắn con chóHigh.mp4" />
+    <None Include="wwwroot\videos\Demon SlayerHD.mp4" />
+    <None Include="wwwroot\videos\DogoHigh.mp4" />
+    <None Include="wwwroot\videos\Dragon BallHD.mp4" />
+    <None Include="wwwroot\videos\GOTG Vol 3HD.mp4" />
+    <None Include="wwwroot\videos\John WickHD.mp4" />
+    <None Include="wwwroot\videos\Over the moonHD.mp4" />
+    <None Include="wwwroot\videos\Star TrekHD.mp4" />
+    <None Include="wwwroot\videos\Stranger ThingHD.mp4" />
+    <None Include="wwwroot\videos\SupergirlHD.mp4" />
+    <None Include="wwwroot\videos\SupergirlHigh.mp4" />
+    <None Include="wwwroot\videos\The FalconHD.mp4" />
+    <None Include="wwwroot\videos\TranformerHigh.mp4" />
+    <None Include="wwwroot\videos\TransformerHD.mp4" />
+    <None Include="wwwroot\videos\Your Name.mp4" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="4.7.1.1" />
@@ -21,13 +158,6 @@
     </PackageReference>
     <PackageReference Include="MimeKit" Version="4.7.1" />
     <PackageReference Include="Xabe.FFmpeg" Version="5.2.6" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\images\medias\" />
-    <Folder Include="wwwroot\images\banners\" />
-    <Folder Include="wwwroot\images\users\" />
-    <Folder Include="wwwroot\videos\" />
   </ItemGroup>
 
 </Project>

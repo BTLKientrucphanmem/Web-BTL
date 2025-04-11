@@ -1,55 +1,38 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Web_BTL.Repository;
+using Web_BTL.BusinessLogicLayer.Services;
 
-namespace Web_BTL.Controllers
-{
-    public class CustomerController : Controller
-    {
-        private readonly DBXemPhimContext _dataContext;
+namespace Web_BTL.BusinessLogicLayer.Controllers {
+    public class CustomerController : Controller {
+        private readonly ICustomerService _customerService;
 
-        public CustomerController(DBXemPhimContext dataContext)
-        {
-            _dataContext = dataContext;
+        // Constructor: Tiêm ICustomerService qua Dependency Injection
+        public CustomerController(ICustomerService customerService) {
+            _customerService = customerService;
         }
-        public IActionResult Favourite()
-        {
-            if (!validateCustomer()) return NotFound();
-            string email = HttpContext.Session.GetString("LogIn Session");
-            var customer = _dataContext.Customers.FirstOrDefault(c => c.UserEmail == email);
-            if (customer == null) return RedirectToAction("SignIn", "Account");
-            int watchListId = customer.CustomerId;
 
-            // Truy vấn để lấy các Media có Favorite = true trong danh sách của khách hàng
-            var favoriteList = (from lm in _dataContext.ListMedia
-                                join m in _dataContext.Medias on lm.MediaId equals m.MediaId
-                                where lm.WatchListId == watchListId && lm.Favorite == true
-                                select m).ToList();
+        // Hiển thị danh sách media yêu thích
+        public async Task<IActionResult> Favourite() {
+            // Gọi tầng nghiệp vụ để lấy danh sách media yêu thích
+            var (success, favoriteMedias) = await _customerService.GetFavoriteMediasAsync();
+            if (!success)
+                return NotFound(); // Trả về lỗi nếu không hợp lệ (chưa đăng nhập, không phải khách hàng)
 
-            return View(favoriteList);
+            return View(favoriteMedias); // Trả về View với danh sách media yêu thích
         }
-        public IActionResult Watched()
-        {
-            if (!validateCustomer()) return NotFound();
-            string email = HttpContext.Session.GetString("LogIn Session");
-            var customer = _dataContext.Customers.FirstOrDefault(c => c.UserEmail == email);
-            if (customer == null) return RedirectToAction("SignIn", "Account");
-            int watchListId = customer.CustomerId;
 
-            // Truy vấn để lấy các Media có Favorite = true trong danh sách của khách hàng
-            var watched = (from lm in _dataContext.ListMedia
-                                join m in _dataContext.Medias on lm.MediaId equals m.MediaId
-                                where lm.WatchListId == watchListId && lm.IsWatched == true
-                                select m).ToList();
-            return View(watched);
+        // Hiển thị danh sách media đã xem
+        public async Task<IActionResult> Watched() {
+            // Gọi tầng nghiệp vụ để lấy danh sách media đã xem
+            var (success, watchedMedias) = await _customerService.GetWatchedMediasAsync();
+            if (!success)
+                return NotFound(); // Trả về lỗi nếu không hợp lệ (chưa đăng nhập, không phải khách hàng)
+
+            return View(watchedMedias); // Trả về View với danh sách media đã xem
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
-        private bool validateCustomer()
-        {
-            if (HttpContext.Session.GetString("Admin") != null) return false;
-            return true;
+
+        // Hiển thị trang chính của khách hàng
+        public IActionResult Index() {
+            return View(); // Trả về View mặc định
         }
     }
 }

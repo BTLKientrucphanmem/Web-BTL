@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Web_BTL.Repository;
+using Web_BTL.DataAccessLayer;
 
-namespace Web_BTL.ViewComponents
-{
+namespace Web_BTL.ViewComponents {
     public class PackageViewComponent : ViewComponent
     {
         private readonly DBXemPhimContext _dataContext;

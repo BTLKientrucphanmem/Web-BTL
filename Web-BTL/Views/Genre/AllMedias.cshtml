@@ -1,13 +1,17 @@
-﻿@{
+﻿@using Web_BTL.DataAccessLayer.Models
+
+@model IEnumerable<MediaModel>
+
+@{
     ViewData["Title"] = "All-Movies";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @section Styles {
     <link href="~/css/genre.css" rel="stylesheet" />
     <link href="~/css/grid.css" rel="stylesheet">
     <link href="~/css/app.css" rel="stylesheet">
 }
-@model IEnumerable<MediaModel>
 
 
 <div class="t-body-wrapper">

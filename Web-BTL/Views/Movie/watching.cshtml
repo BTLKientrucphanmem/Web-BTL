@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Web_BTL.DataAccessLayer.Models
+@model MediaModel
+
+@{
     var i = 0;
     ViewData["Title"] = "@Model.MediaName";
 }
@@ -8,8 +11,6 @@
     <link href="~/css/grid.css" rel="stylesheet">
     <link href="~/css/app.css" rel="stylesheet">
 }
-@using Web_BTL.Models
-@model MediaModel
 
 <div class="container-fluid">
     <div class="row">

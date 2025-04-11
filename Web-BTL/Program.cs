@@ -1,6 +1,13 @@
+
 using Microsoft.EntityFrameworkCore;
-using Web_BTL.Repository;
-using Web_BTL.UploadFile;
+using Web_BTL.BusinessLogicLayer.Services;
+
+using Web_BTL.DataAccessLayer;
+using Web_BTL.DataAccessLayer.Repository;
+using Web_BTL.DataAccessLayer.Services;
+using Web_BTL.Services;
+using WWeb_BTL.BusinessLogicLayer.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 // connection Database
@@ -8,6 +15,20 @@ builder.Services.AddDbContext<DBXemPhimContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectedDb"));
 });
+
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+builder.Services.AddScoped<IGenreService, GenreService>();
+builder.Services.AddScoped<SaveImageVideo>();
+
+
+builder.Services.AddHttpContextAccessor(); 
+builder.Services.AddDistributedMemoryCache();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
