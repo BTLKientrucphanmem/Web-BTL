@@ -1,11 +1,9 @@
 
 using Microsoft.EntityFrameworkCore;
 using Web_BTL.BusinessLogicLayer.Services;
-
 using Web_BTL.DataAccessLayer;
 using Web_BTL.DataAccessLayer.Repository;
 using Web_BTL.DataAccessLayer.Services;
-using Web_BTL.Services;
 using WWeb_BTL.BusinessLogicLayer.Services;
 
 
@@ -24,6 +22,14 @@ builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<IGenreService, GenreService>();
+builder.Services.AddScoped<IHomeRepository, HomeRepository>();
+builder.Services.AddScoped<IHomeService, HomeService>();
+builder.Services.AddScoped<IMediaRepository, MediaRepository>();
+builder.Services.AddScoped<IMediaService, MediaService>();
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<IMovieService, MovieService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<SaveImageVideo>();
 
 

@@ -1,65 +1,41 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Web_BTL.DataAccessLayer;
-using Web_BTL.DataAccessLayer.Models;
+using Web_BTL.BusinessLogicLayer.Services;
 
-namespace Web_BTL.BusinessLogicLayer.Controllers {
-    public class MediaController : Controller
-    {
-        private DBXemPhimContext db;
-        private int PageSize = 16;
-        public IActionResult Index(int? mid, int page = 1)
-        {
-            var media = (IQueryable<MediaModel>)db.Medias
-                .Include(m => m.Genres);
-            if (mid != null)
-            {
-                media = (IQueryable<MediaModel>)db.Medias
-                    .Where(m => m.Genres.Any(g => g.GenreId == mid ));
-            }
+namespace Web_BTL.Controllers {
+    // Controller xử lý các yêu cầu liên quan đến media
+    public class MediaController : Controller {
+        private readonly IMediaService _mediaService; // Dịch vụ nghiệp vụ xử lý logic liên quan đến media
 
-            int totalMedia = media.Count();
-            int pageNumbers = (int)Math.Ceiling(totalMedia / (float)PageSize);
-
-            ViewBag.PageNumbers = pageNumbers;
-            ViewBag.CurrentPage = page;
-
-            var result = media
-                .Skip((page - 1) * PageSize)
-                .Take(PageSize)
-                .ToList();
-            return View(result);
+        // Constructor: Tiêm IMediaService qua Dependency Injection
+        public MediaController(IMediaService mediaService) {
+            _mediaService = mediaService;
         }
 
+        // Hiển thị danh sách media phân trang với bộ lọc theo thể loại
+        public async Task<IActionResult> Index(int? mid, int page = 1) {
+            // Gọi tầng nghiệp vụ để lấy danh sách media phân trang
+            var (medias, pageNumbers, currentPage) = await _mediaService.GetPagedMediasAsync(mid, page);
 
-        public IActionResult MoviesFilter(int? mid, string? keyword, int? pageindex)
-        {
-            var medias = (IQueryable<MediaModel>)db.Medias;
-            var page = (int)(pageindex == null || pageindex <= 0 ? 1 : pageindex);
+            // Gán dữ liệu vào ViewBag để hiển thị trong View
+            ViewBag.PageNumbers = pageNumbers; // Tổng số trang
+            ViewBag.CurrentPage = currentPage; // Trang hiện tại
 
-            if (mid != null)
-            {
-                medias = (IQueryable<MediaModel>)db.Medias
-                    .Where(m => m.Genres.Any(g => g.GenreId == mid));
+            // Trả về View với danh sách media phân trang
+            return View(medias);
+        }
 
-                ViewBag.mid = mid;
-            }
+        // Lọc media theo thể loại và từ khóa, trả về PartialView phân trang
+        public async Task<IActionResult> MoviesFilter(int? mid, string? keyword, int? pageindex) {
+            // Gọi tầng nghiệp vụ để lấy danh sách media đã lọc và phân trang
+            var (medias, pageNumbers, currentPage) = await _mediaService.GetFilteredPagedMediasAsync(mid, keyword, pageindex);
 
-            if(keyword != null)
-            {
-                medias = (IQueryable<MediaModel>)db.Medias
-                    .Where(m => m.MediaName.Contains(keyword));
-                ViewBag.keyword = keyword;
-            }
+            // Gán dữ liệu vào ViewBag để sử dụng trong PartialView
+            ViewBag.PageNumbers = pageNumbers; // Tổng số trang
+            ViewBag.mid = mid; // ID thể loại (nếu có)
+            ViewBag.keyword = keyword; // Từ khóa tìm kiếm (nếu có)
 
-            int pageNumbers = (int)Math.Ceiling(medias.Count() / (float)PageSize);
-            ViewBag.PageNumbers = pageNumbers;
-            var result = medias
-                .Skip((page - 1) * PageSize)
-                .Take(PageSize)
-                .ToList();
-
-            return PartialView("_MediaPartial", result);
+            // Trả về PartialView với danh sách media đã lọc
+            return PartialView("_MediaPartial", medias);
         }
     }
 }

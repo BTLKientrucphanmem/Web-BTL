@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Web_BTL.DataAccessLayer.Models;
 using Web_BTL.DataAccessLayer.Services;
-using Web_BTL.Services;
+
 
 namespace Web_BTL.Controllers {
     // Controller xử lý các yêu cầu liên quan đến thể loại và danh sách media
